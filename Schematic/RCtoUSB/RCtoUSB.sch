@@ -596,7 +596,7 @@ U 1 1 60FDCDFA
 P 2150 2800
 F 0 "J2" H 2068 3117 50  0000 C CNN
 F 1 "PORTA" H 2068 3026 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical_SMD_Pin1Right" H 2150 2800 50  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 2150 2800 50  0001 C CNN
 F 3 "~" H 2150 2800 50  0001 C CNN
 	1    2150 2800
 	-1   0    0    -1  
@@ -607,7 +607,7 @@ U 1 1 60FDDD5C
 P 9050 3000
 F 0 "J5" H 8968 2575 50  0000 C CNN
 F 1 "PORTB" H 8968 2666 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical_SMD_Pin1Right" H 9050 3000 50  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 9050 3000 50  0001 C CNN
 F 3 "~" H 9050 3000 50  0001 C CNN
 	1    9050 3000
 	1    0    0    1   
@@ -618,7 +618,7 @@ U 1 1 60FDEA17
 P 750 2400
 F 0 "J1" H 668 2617 50  0000 C CNN
 F 1 "Power" H 668 2526 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical_SMD_Pin1Right" H 750 2400 50  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 750 2400 50  0001 C CNN
 F 3 "~" H 750 2400 50  0001 C CNN
 	1    750  2400
 	-1   0    0    -1  
