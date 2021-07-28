@@ -694,4 +694,6 @@ F 3 "" H 5200 4600 50  0001 C CNN
 	1    5200 4600
 	1    0    0    -1  
 $EndComp
+Text Notes 5900 5950 0    50   ~ 0
+Do not populate R5
 $EndSCHEMATC

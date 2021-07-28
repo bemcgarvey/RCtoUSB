@@ -649,4 +649,6 @@ Wire Wire Line
 Connection ~ 3550 3400
 Wire Wire Line
 	3550 3400 3900 3400
+Text Notes 6150 6000 0    50   ~ 0
+Do not populate R9
 $EndSCHEMATC
