@@ -414,10 +414,6 @@ Wire Wire Line
 Wire Wire Line
 	8600 1350 8700 1350
 Wire Wire Line
-	9150 4800 9150 5250
-Wire Wire Line
-	9150 5250 9450 5250
-Wire Wire Line
 	9450 5000 9450 5250
 Connection ~ 9450 5250
 Wire Wire Line

@@ -631,12 +631,7 @@ Wire Wire Line
 Wire Wire Line
 	2500 3500 3900 3500
 Wire Wire Line
-	1950 3800 1950 4200
-Wire Wire Line
-	1950 4200 1650 4200
-Wire Wire Line
 	1650 4000 1650 4200
-Connection ~ 1650 4200
 Wire Wire Line
 	1650 4200 1550 4200
 Wire Wire Line
