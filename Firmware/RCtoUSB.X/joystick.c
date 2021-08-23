@@ -30,15 +30,6 @@ volatile INPUT_CONTROLS joystick_input;
 volatile USB_HANDLE txHandle; //Handle for txPacket
 
 void JoystickInitialize(void) {
-    TRISBbits.TRISB0 = 1; //Set button as input
-    INTCON2bits.RBPU = 0;
-    LATC = 0;
-    TRISC = 0;
-    LATCbits.LATC1 = 1;
-    LATCbits.LATC2 = 1;
-
-    ANCON0 = 0xff; //All digital inputs 
-    ANCON1 = 0xff;
     /* initialize the handles to invalid so we know they aren't being used. */
     txHandle = NULL;
     //enable the HID endpoint
