@@ -78,8 +78,8 @@ please contact mla_licensing@microchip.com
 //(ex: USBDeviceTasks()) must be called periodically by the application firmware
 //at a minimum rate as described in the inline code comments in usb_device.c.
 //------------------------------------------------------
-#define USB_POLLING
-//#define USB_INTERRUPT
+//#define USB_POLLING
+#define USB_INTERRUPT
 //------------------------------------------------------------------------------
 
 /* Parameter definitions are defined in usb_device.h */
@@ -169,7 +169,7 @@ please contact mla_licensing@microchip.com
 #define HID_INTF_ID             0x00
 #define HID_EP 					1
 #define HID_NUM_OF_DSC          1
-#define HID_RPT01_SIZE          87
+#define HID_RPT01_SIZE          78
 
 /** DEFINITIONS ****************************************************/
 

@@ -10,20 +10,19 @@
 
 /** TYPE DEFINITIONS ************************************************/
 typedef struct _INTPUT_CONTROLS_TYPEDEF {
-    uint16_t x;
-    uint16_t y;
+    uint16_t aileron;
+    uint16_t elevator;
     uint16_t throttle;
-    uint16_t z;
-    uint16_t rx;
-    uint16_t ry;
-    uint16_t rz;
+    uint16_t rudder;
+    uint16_t flaps;
     uint16_t slider;
     uint16_t wheel;
-    uint16_t dial;
+    uint8_t gear : 1;
     uint8_t button1 : 1;
     uint8_t button2 : 1;
-uint8_t:
-    6;
+    uint8_t button3 : 1;
+    uint8_t button4 : 1;
+    uint8_t:3;
 } INPUT_CONTROLS;
 
 volatile INPUT_CONTROLS joystick_input;
@@ -66,32 +65,34 @@ void JoystickTasks(void) {
     //USB is connected and active so create a report
     if (HIDTxHandleBusy(txHandle) == false) {
         if (PORTBbits.RB0 == 0) {
-            joystick_input.x = 0;
-            joystick_input.y = 2047;
+            joystick_input.aileron = 0;
+            joystick_input.elevator = 2047;
             joystick_input.throttle = 512;
-            joystick_input.rx = 0;
-            joystick_input.ry = 0;
-            joystick_input.rz = 0;
-            joystick_input.slider = 2000;
-            joystick_input.wheel = 0;
-            joystick_input.dial = 0;
-            joystick_input.button1 = 1;
-            joystick_input.button2 = 0;
+            joystick_input.rudder = 1500;
+            joystick_input.flaps = 1024;
+            joystick_input.slider = 450;
+            joystick_input.wheel = 1600;
+            joystick_input.gear = 1;
+            joystick_input.button1 = 0;
+            joystick_input.button2 = 1;
+            joystick_input.button3 = 0;
+            joystick_input.button4 = 1;
             //Send the packet over USB to the host.
             txHandle = HIDTxPacket(HID_EP, (uint8_t*) & joystick_input, sizeof (joystick_input));
 
         } else {
-            joystick_input.x = 1024;
-            joystick_input.y = 1024;
+            joystick_input.aileron = 1024;
+            joystick_input.elevator = 1024;
             joystick_input.throttle = 0;
-            joystick_input.rx = 0;
-            joystick_input.ry = 0;
-            joystick_input.rz = 0;
+            joystick_input.rudder = 1024;
+            joystick_input.flaps = 0;
             joystick_input.slider = 0;
             joystick_input.wheel = 0;
-            joystick_input.dial = 0;
+            joystick_input.gear = 0;
             joystick_input.button1 = 0;
             joystick_input.button2 = 0;
+            joystick_input.button3 = 0;
+            joystick_input.button4 = 0;
             txHandle = HIDTxPacket(HID_EP, (uint8_t*) & joystick_input, sizeof (joystick_input));
         }
     }

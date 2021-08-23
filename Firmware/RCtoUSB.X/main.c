@@ -23,6 +23,8 @@ void main(void)
 void __interrupt(__high_priority) SYS_InterruptHigh(void)
 {
     #if defined(USB_INTERRUPT)
+    if (PIR2bits.USBIF) {
         USBDeviceTasks();
+    }
     #endif
 }
