@@ -12,7 +12,6 @@ void SYSTEM_Initialize( SYSTEM_STATE state )
     initPins();
     configInterrupts();
     initSystemTimer();
-    initSat();
     switch(state)
     {
         case SYSTEM_STATE_USB_START:

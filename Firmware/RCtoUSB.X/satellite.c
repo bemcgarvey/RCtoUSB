@@ -1,5 +1,6 @@
 #include <xc.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "satellite.h"
 #include "leds.h"
 #include "system.h"
@@ -27,4 +28,12 @@ void bindSat(int8_t pulses) {
     TRISCbits.TRISC7 = 1;
     led2Off();
     INTCONbits.GIEH = 1;
+}
+
+bool satPowered(void) {
+    if (LATCbits.LATC0 == 1) {
+        return true;
+    } else {
+        return false;
+    }
 }

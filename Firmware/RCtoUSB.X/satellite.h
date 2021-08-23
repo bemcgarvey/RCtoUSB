@@ -17,6 +17,7 @@ enum {DSMX_INTERNAL_11MS = 9, DSMX_EXTERNAL_11MS = 10, DSMX_INTERNAL_22MS = 7
 
 void initSat(void);
 void bindSat(int8_t pulses);
+bool satPowered(void);
 
 #endif	/* SATELLITE_H */
 

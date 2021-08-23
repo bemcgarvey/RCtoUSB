@@ -7,6 +7,7 @@
 #include "joystick.h"
 #include "timers.h"
 #include "leds.h"
+#include "satellite.h"
 
 volatile uint8_t buttonCountdown = 0;
 volatile bool buttonPressed = false;
@@ -15,6 +16,8 @@ void main(void) {
     SYSTEM_Initialize(SYSTEM_STATE_USB_START);
     USBDeviceInit();
     USBDeviceAttach();
+    __delay_ms(500);
+    initSat();
     while (1) {
 #if defined(USB_POLLING)
         USBDeviceTasks();
@@ -28,6 +31,7 @@ void main(void) {
         if (buttonPressed) {
             led2Toggle();
             buttonPressed = false;
+            bindSat(DSM2_INTERNAL_11MS);
         }
     }
 }
