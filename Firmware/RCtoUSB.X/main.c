@@ -16,7 +16,7 @@ void main(void) {
     SYSTEM_Initialize(SYSTEM_STATE_USB_START);
     USBDeviceInit();
     USBDeviceAttach();
-    __delay_ms(500);
+    __delay_ms(1000);
     initSat();
     while (1) {
 #if defined(USB_POLLING)
@@ -29,14 +29,14 @@ void main(void) {
             systemTimerTicks = 0;
         }
         if (buttonPressed) {
-            led2Toggle();
             buttonPressed = false;
+            led1Off();
             bindSat(DSM2_INTERNAL_11MS);
         }
     }
 }
 
-void __interrupt(__high_priority) SYS_InterruptHigh(void) {
+void __interrupt(high_priority) highISR(void) {
 #if defined(USB_INTERRUPT)
     if (PIR2bits.USBIF) {
         USBDeviceTasks();
@@ -57,4 +57,8 @@ void __interrupt(__high_priority) SYS_InterruptHigh(void) {
         buttonPressed = false;
         INTCONbits.INT0IF = 0;
     }
+}
+
+void __interrupt(low_priority) lowISR(void) {
+    handleRxInterrupt();
 }

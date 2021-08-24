@@ -26,7 +26,6 @@ typedef struct _INTPUT_CONTROLS_TYPEDEF {
 } INPUT_CONTROLS;
 
 volatile INPUT_CONTROLS joystick_input;
-
 volatile USB_HANDLE txHandle; //Handle for txPacket
 
 void JoystickInitialize(void) {
@@ -37,22 +36,12 @@ void JoystickInitialize(void) {
 }//end UserInit
 
 void JoystickTasks(void) {
-
-    /* If the USB device isn't configured yet, we can't really do anything
-     * else since we don't have a host to talk to.  So jump back to the
-     * top of the while loop. */
     if (USBGetDeviceState() < CONFIGURED_STATE) {
         return;
     }
-
-    /* If we are currently suspended, then we need to see if we need to
-     * issue a remote wakeup.  In either case, we shouldn't process any
-     * keyboard commands since we aren't currently communicating to the host
-     * thus just continue back to the start of the while loop. */
     if (USBIsDeviceSuspended() == true) {
         return;
     }
-
     //USB is connected and active so create a report
     if (HIDTxHandleBusy(txHandle) == false) {
         if (PORTBbits.RB0 == 0) {
@@ -70,7 +59,6 @@ void JoystickTasks(void) {
             joystick_input.button4 = 1;
             //Send the packet over USB to the host.
             txHandle = HIDTxPacket(HID_EP, (uint8_t*) & joystick_input, sizeof (joystick_input));
-
         } else {
             joystick_input.aileron = 1024;
             joystick_input.elevator = 1024;
@@ -87,7 +75,7 @@ void JoystickTasks(void) {
             txHandle = HIDTxPacket(HID_EP, (uint8_t*) & joystick_input, sizeof (joystick_input));
         }
     }
-}//end ProcessIO
+}
 
 void JoystickIdleRateCallback(uint8_t reportId, uint8_t idleRate) {
     //Make sure the host is requesting to set the idleRate on a legal/implemented
