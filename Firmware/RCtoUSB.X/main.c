@@ -11,7 +11,8 @@
 volatile uint8_t debounceCount;
 volatile int buttonTime;
 #define DEBOUNCE_TIME   20
-#define LONG_PRESS      1960   //2 seconds with the 2 * 20ms debounce times
+#define SHORT_PRESS     960
+#define LONG_PRESS      3960   //4 seconds with the 2 * 20ms debounce times
 
 volatile enum {
     BUTTON_IDLE = 0, DEBOUNCE_DOWN = 1, BUTTON_TIMING = 2, DEBOUNCE_UP = 3, BUTTON_PRESSED = 4
@@ -24,9 +25,6 @@ void main(void) {
     __delay_ms(1000);
     initSat();
     while (1) {
-#if defined(USB_POLLING)
-        USBDeviceTasks();  //TODO remove if not used
-#endif
         JoystickTasks();
         if (packetCount == 90) {
             packetCount = 0;
@@ -36,20 +34,22 @@ void main(void) {
             buttonState = BUTTON_IDLE;
             led1Off();
             if (buttonTime > LONG_PRESS) {
-                bindSat(DSM2_INTERNAL_11MS);
-            } else {
+                satPowerOff();
+                __delay_ms(1000);
+                satPowerOn();
+            } else if (buttonTime > SHORT_PRESS) {
                 bindSat(DSMX_INTERNAL_11MS);
+            } else {
+                bindSat(DSM2_INTERNAL_11MS);
             }
         }
     }
 }
 
 void __interrupt(high_priority) highISR(void) {
-#if defined(USB_INTERRUPT)  //TODO #if defined - remove if we stick with interrupts
     if (PIR2bits.USBIF) {
         USBDeviceTasks();
     }
-#endif
     if (PIR3bits.TMR4IF) {
         ++systemTimerTicks;
         ++rxTimerTicks;
@@ -70,7 +70,7 @@ void __interrupt(high_priority) highISR(void) {
             --debounceCount;
             if (debounceCount == 0) {
                 if (PORTBbits.RB0 == 1) {
-                    INTCON2bits.INTEDG0 = 1;
+                    INTCON2bits.INTEDG0 = 0;
                     buttonState = BUTTON_PRESSED;
                 } else {
                     buttonState = BUTTON_IDLE;

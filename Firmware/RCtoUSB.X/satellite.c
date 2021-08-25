@@ -54,9 +54,14 @@ void bindSat(int8_t pulses) {
     //Wait until we receive a full packet to confirm bind
     int8_t rxCount = sizeof (DataPacket);
     while (rxCount) {
-        while (!PIR1bits.RC1IF);
-        rx = RCREG1;
-        --rxCount;
+        if (PIR1bits.RC1IF) {
+            rx = RCREG1;
+            --rxCount;
+        }
+        if (PORTBbits.RB0 == 0) {
+            __delay_ms(100);
+            break;
+        }
     }
     led2Off();
     rxTimerTicks = 0;
