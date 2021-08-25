@@ -5,11 +5,15 @@
 #include "leds.h"
 #include "system.h"
 
+volatile bool packetComplete = false;
+volatile uint8_t activeBuffer = 1;
+volatile uint8_t rxTimerTicks;
+volatile DataPacket rxBuffer[2];
+
 volatile bool packetValid = false;
 volatile uint8_t bytesReceived = 0;
-
-volatile DataPacket rxBuffer[2];
-volatile uint8_t activeBuffer = 0;
+volatile uint8_t *oddBuffPtr;
+volatile uint8_t *evenBuffPtr;
 
 void initSat(void) {
     //setup USART1
@@ -18,11 +22,12 @@ void initSat(void) {
     BAUDCON1bits.BRG16 = 1;
     SPBRGH1 = 103 >> 8;
     SPBRG1 = 103; //115200 baud
-    RCSTA1bits.CREN = 1;
     IPR1bits.RC1IP = 0;
     //PIE1bits.RC1IE = 1;
     RCSTA1bits.SPEN = 1;
     satPowerOn();
+    rxTimerTicks = 0;
+    RCSTA1bits.CREN = 1;
 }
 
 void bindSat(int8_t pulses) {
@@ -54,6 +59,7 @@ void bindSat(int8_t pulses) {
         --rxCount;
     }
     led2Off();
+    rxTimerTicks = 0;
     INTCONbits.GIEH = 1;
 }
 
@@ -67,5 +73,41 @@ bool satPowered(void) {
 
 void handleRxInterrupt(void) {
     uint8_t rx;
+    if (rxTimerTicks > 2) {
+        bytesReceived = 0;
+        packetValid = true;
+        evenBuffPtr = rxBuffer[activeBuffer].bytes;
+        oddBuffPtr = evenBuffPtr + 1;
+    }
+    rxTimerTicks = 0;
+    if (RCSTAbits.OERR) {
+        RCSTAbits.CREN = 0;
+        packetValid = false;
+        bytesReceived = 0;
+        evenBuffPtr = rxBuffer[activeBuffer].bytes;
+        oddBuffPtr = evenBuffPtr + 1;
+        RCSTAbits.CREN = 1;
+        return;
+    }
+    if (RCSTAbits.FERR) {
+        packetValid = false;
+    }
     rx = RCREG1;
+    if (bytesReceived & 1) {
+        *oddBuffPtr = rx;
+        oddBuffPtr += 2;
+    } else {
+        *evenBuffPtr = rx;
+        evenBuffPtr += 2;
+    }
+    ++bytesReceived;
+    if (bytesReceived == sizeof(DataPacket)) {
+        if (packetValid) {
+            packetComplete = true;
+            activeBuffer ^= 1;
+        }
+        bytesReceived = 0;  
+        evenBuffPtr = rxBuffer[activeBuffer].bytes;
+        oddBuffPtr = evenBuffPtr + 1;
+    }
 }

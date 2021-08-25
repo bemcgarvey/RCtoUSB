@@ -7,6 +7,7 @@
 #include "usb_device_hid.h"
 #include "joystick.h"
 #include "usb_config.h"
+#include "satellite.h"
 
 /** TYPE DEFINITIONS ************************************************/
 typedef struct _INTPUT_CONTROLS_TYPEDEF {
@@ -42,6 +43,12 @@ void JoystickTasks(void) {
     if (USBIsDeviceSuspended() == true) {
         return;
     }
+    
+    if (packetComplete) {
+        packetComplete = false;
+        //set joystick_input fields from rxBuffer[activeBuffer ^ 1]
+    }
+    
     //USB is connected and active so create a report
     if (HIDTxHandleBusy(txHandle) == false) {
         if (PORTBbits.RB0 == 0) {

@@ -26,6 +26,11 @@ typedef union {
     uint8_t bytes[16];
 } DataPacket;
 
+extern volatile bool packetComplete;
+extern volatile uint8_t activeBuffer;
+extern volatile uint8_t rxTimerTicks;
+extern volatile DataPacket rxBuffer[2];
+
 void initSat(void);
 void bindSat(int8_t pulses);
 bool satPowered(void);
