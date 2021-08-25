@@ -10,7 +10,6 @@
 extern uint16_t packetCount;
 
 void JoystickInitialize(void);
-//void JoystickStart(void);
 void JoystickTasks(void);
 bool JoystickEventHandler(unsigned int event, void *pdata, size_t size);
 void JoystickSOFHandler(void);

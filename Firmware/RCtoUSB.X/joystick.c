@@ -26,6 +26,9 @@ typedef struct {
     uint8_t empty : 3;
 } INPUT_CONTROLS;
 
+#define CHANNEL_HIGH_VALUE  1536
+#define CHANNEL_LOW_VALUE   512
+
 volatile INPUT_CONTROLS joystick_input = {1024, 1024, 0, 1024, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile USB_HANDLE txHandle;
 
@@ -41,22 +44,81 @@ void JoystickTasks(void) {
     if (USBIsDeviceSuspended() == true) {
         return;
     }
-    //TODO Is it ok to write to buffer even if usb is currently transmitting it?
-    //Or should we copy data to a new buffer and then give it to usb.
-    if (packetComplete) {
-        packetComplete = false;
-        ++packetCount;
-        //TODO set joystick_input fields from rxBuffer[activeBuffer ^ 1]
-        uint8_t completeBuffer = activeBuffer ^ 1;
-        for (char i = 0; i < 7; ++i) {
-            uint8_t channel = rxBuffer[completeBuffer].channels[i] >> 11;
-            channel &= 0x0f;
-            if (channel == 0) {
-                joystick_input.throttle = rxBuffer[completeBuffer].channels[i] & 0x7ff;
+    if (HIDTxHandleBusy(txHandle) == false) {
+        if (packetComplete) {
+            packetComplete = false;
+            ++packetCount;
+            uint16_t *channelData = (uint16_t *)rxBuffer[activeBuffer ^ 1].channels;
+            for (char i = 0; i < 7; ++i) {
+                uint8_t channel = *channelData >> 11;
+                channel &= 0x0f;
+                uint16_t value = *channelData & 0x7ff;
+                switch (channel) {
+                    case 0:
+                        joystick_input.throttle = value;
+                        break;
+                    case 1:
+                        joystick_input.aileron = value;
+                        break;
+                    case 2:
+                        joystick_input.elevator = value;
+                        break;
+                    case 3:
+                        joystick_input.rudder = value;
+                        break;
+                    case 4:
+                        if (value <= CHANNEL_LOW_VALUE) {
+                            joystick_input.gear = 0;
+                        }
+                        if (value >= CHANNEL_HIGH_VALUE) {
+                            joystick_input.gear = 1;
+                        }
+                        break;
+                    case 5:
+                        joystick_input.flaps = value;
+                        break;
+                    case 6:
+                        joystick_input.slider = value;
+                        break;
+                    case 7:
+                        joystick_input.wheel = value;
+                        break;
+                    case 8:
+                        if (value <= CHANNEL_LOW_VALUE) {
+                            joystick_input.button1 = 0;
+                        }
+                        if (value >= CHANNEL_HIGH_VALUE) {
+                            joystick_input.button1 = 1;
+                        }
+                        break;
+                    case 9:
+                        if (value <= CHANNEL_LOW_VALUE) {
+                            joystick_input.button2 = 0;
+                        }
+                        if (value >= CHANNEL_HIGH_VALUE) {
+                            joystick_input.button2 = 1;
+                        }
+                        break;
+                    case 10:
+                        if (value <= CHANNEL_LOW_VALUE) {
+                            joystick_input.button3 = 0;
+                        }
+                        if (value >= CHANNEL_HIGH_VALUE) {
+                            joystick_input.button3 = 1;
+                        }
+                        break;
+                    case 11:
+                        if (value <= CHANNEL_LOW_VALUE) {
+                            joystick_input.button4 = 0;
+                        }
+                        if (value >= CHANNEL_HIGH_VALUE) {
+                            joystick_input.button4 = 1;
+                        }
+                        break;
+                }
+                ++channelData;
             }
         }
-    }
-    if (HIDTxHandleBusy(txHandle) == false) {
         txHandle = HIDTxPacket(HID_EP, (uint8_t*) & joystick_input, sizeof (joystick_input));
     }
 }

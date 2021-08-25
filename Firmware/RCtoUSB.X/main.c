@@ -12,7 +12,7 @@ volatile uint8_t debounceCount;
 volatile int buttonTime;
 #define DEBOUNCE_TIME   20
 #define LONG_PRESS      1960   //2 seconds with the 2 * 20ms debounce times
-//TODO set up 3 different button times - short, medium and long.  Medium and long for bind, short for reset?
+
 volatile enum {
     BUTTON_IDLE = 0, DEBOUNCE_DOWN = 1, BUTTON_TIMING = 2, DEBOUNCE_UP = 3, BUTTON_PRESSED = 4
 } buttonState = BUTTON_IDLE;
