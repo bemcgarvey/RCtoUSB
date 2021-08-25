@@ -23,7 +23,7 @@ void initSat(void) {
     SPBRGH1 = 103 >> 8;
     SPBRG1 = 103; //115200 baud
     IPR1bits.RC1IP = 0;
-    //PIE1bits.RC1IE = 1;
+    PIE1bits.RC1IE = 1;
     RCSTA1bits.SPEN = 1;
     satPowerOn();
     rxTimerTicks = 0;
@@ -76,16 +76,16 @@ void handleRxInterrupt(void) {
     if (rxTimerTicks > 2) {
         bytesReceived = 0;
         packetValid = true;
-        evenBuffPtr = rxBuffer[activeBuffer].bytes;
-        oddBuffPtr = evenBuffPtr + 1;
+        oddBuffPtr = rxBuffer[activeBuffer].bytes;
+        evenBuffPtr = oddBuffPtr + 1;
     }
     rxTimerTicks = 0;
     if (RCSTAbits.OERR) {
         RCSTAbits.CREN = 0;
         packetValid = false;
         bytesReceived = 0;
-        evenBuffPtr = rxBuffer[activeBuffer].bytes;
-        oddBuffPtr = evenBuffPtr + 1;
+        oddBuffPtr = rxBuffer[activeBuffer].bytes;
+        evenBuffPtr = oddBuffPtr + 1;
         RCSTAbits.CREN = 1;
         return;
     }
@@ -107,7 +107,7 @@ void handleRxInterrupt(void) {
             activeBuffer ^= 1;
         }
         bytesReceived = 0;  
-        evenBuffPtr = rxBuffer[activeBuffer].bytes;
-        oddBuffPtr = evenBuffPtr + 1;
+        oddBuffPtr = rxBuffer[activeBuffer].bytes;
+        evenBuffPtr = oddBuffPtr + 1;
     }
 }

@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include "system.h"
 #include "usb_device.h"
-#include "usb_device_hid.h"
 #include "joystick.h"
 #include "timers.h"
 #include "leds.h"
@@ -13,6 +12,7 @@ volatile uint8_t debounceCount;
 volatile int buttonTime;
 #define DEBOUNCE_TIME   20
 #define LONG_PRESS      1960   //2 seconds with the 2 * 20ms debounce times
+//TODO set up 3 different button times - short, medium and long.  Medium and long for bind, short for reset?
 volatile enum {
     BUTTON_IDLE = 0, DEBOUNCE_DOWN = 1, BUTTON_TIMING = 2, DEBOUNCE_UP = 3, BUTTON_PRESSED = 4
 } buttonState = BUTTON_IDLE;
@@ -25,13 +25,12 @@ void main(void) {
     initSat();
     while (1) {
 #if defined(USB_POLLING)
-        USBDeviceTasks();
+        USBDeviceTasks();  //TODO remove if not used
 #endif
-        //Application specific tasks
         JoystickTasks();
-        if (systemTimerTicks >= 1000) {
+        if (packetCount == 90) {
+            packetCount = 0;
             led1Toggle();
-            systemTimerTicks = 0;
         }
         if (buttonState == BUTTON_PRESSED) {
             buttonState = BUTTON_IDLE;
@@ -46,7 +45,7 @@ void main(void) {
 }
 
 void __interrupt(high_priority) highISR(void) {
-#if defined(USB_INTERRUPT)
+#if defined(USB_INTERRUPT)  //TODO #if defined - remove if we stick with interrupts
     if (PIR2bits.USBIF) {
         USBDeviceTasks();
     }

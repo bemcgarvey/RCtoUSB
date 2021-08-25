@@ -30,6 +30,7 @@ extern volatile bool packetComplete;
 extern volatile uint8_t activeBuffer;
 extern volatile uint8_t rxTimerTicks;
 extern volatile DataPacket rxBuffer[2];
+extern uint16_t packetCount;
 
 void initSat(void);
 void bindSat(int8_t pulses);
