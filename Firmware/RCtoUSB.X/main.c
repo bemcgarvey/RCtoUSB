@@ -62,6 +62,7 @@ void __interrupt(high_priority) highISR(void) {
                     buttonState = BUTTON_TIMING;
                 } else {
                     buttonState = BUTTON_IDLE;
+                    INTCON2bits.INTEDG0 = 0;
                 }
             }
         } else if (buttonState == BUTTON_TIMING) {
@@ -70,11 +71,11 @@ void __interrupt(high_priority) highISR(void) {
             --debounceCount;
             if (debounceCount == 0) {
                 if (PORTBbits.RB0 == 1) {
-                    INTCON2bits.INTEDG0 = 0;
                     buttonState = BUTTON_PRESSED;
                 } else {
                     buttonState = BUTTON_IDLE;
                 }
+                INTCON2bits.INTEDG0 = 0;
             }
         }
         PIR3bits.TMR4IF = 0;

@@ -34,7 +34,6 @@ extern uint16_t packetCount;
 
 void initSat(void);
 void bindSat(int8_t pulses);
-bool satPowered(void);
 void handleRxInterrupt(void);
 
 #endif	/* SATELLITE_H */

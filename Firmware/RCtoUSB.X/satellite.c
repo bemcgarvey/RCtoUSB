@@ -68,14 +68,6 @@ void bindSat(int8_t pulses) {
     INTCONbits.GIEH = 1;
 }
 
-bool satPowered(void) {
-    if (LATCbits.LATC0 == 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 void handleRxInterrupt(void) {
     uint8_t rx;
     if (rxTimerTicks > 2) {
