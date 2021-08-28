@@ -169,7 +169,7 @@ please contact mla_licensing@microchip.com
 #define HID_INTF_ID             0x00
 #define HID_EP 					1
 #define HID_NUM_OF_DSC          1
-#define HID_RPT01_SIZE          43
+#define HID_RPT01_SIZE          55
 
 /** DEFINITIONS ****************************************************/
 

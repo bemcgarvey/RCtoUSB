@@ -61,7 +61,7 @@ const uint8_t configDescriptor1[] = {
     USB_DESCRIPTOR_ENDPOINT, //Endpoint Descriptor
     HID_EP | _EP_IN, //EndpointAddress
     _INTERRUPT, //Attributes
-    DESC_CONFIG_WORD(8), //size
+    DESC_CONFIG_WORD(14), //size
     0x01 //Interval
 };
 
@@ -95,6 +95,12 @@ const struct {
     0xc0,                          //   END_COLLECTION
     0x95, 0x01,                    //   REPORT_COUNT (1)
     0x09, 0x32,                    //   USAGE (Z)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x09, 0x33,                    //   USAGE (Rx)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x09, 0x34,                    //   USAGE (Ry)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x09, 0x35,                    //   USAGE (Rz)
     0x81, 0x02,                    //   INPUT (Data,Var,Abs)
     0xc0                           // END_COLLECTION
 };

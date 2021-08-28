@@ -15,12 +15,15 @@ typedef struct {
     uint16_t x;
     uint16_t y;
     uint16_t z;
+    uint16_t rx;
+    uint16_t ry;
+    uint16_t rz;
 } INPUT_CONTROLS;
 
 #define CHANNEL_HIGH_VALUE  1536
 #define CHANNEL_LOW_VALUE   512
 
-volatile INPUT_CONTROLS joystick_input = {0, 1024, 1024, 1024};
+volatile INPUT_CONTROLS joystick_input = {0, 1024, 1024, 1024, 1024, 1024};
 volatile USB_HANDLE txHandle;
 
 void JoystickInitialize(void) {
@@ -39,7 +42,7 @@ void JoystickTasks(void) {
         if (packetComplete) {
             packetComplete = false;
             ++packetCount;
-            uint16_t *channelData = (uint16_t *)rxBuffer[activeBuffer ^ 1].channels;
+            uint16_t *channelData = (uint16_t *) rxBuffer[activeBuffer ^ 1].channels;
             for (char i = 0; i < 7; ++i) {
                 uint8_t channel = *channelData >> 11;
                 channel &= 0x0f;
@@ -56,6 +59,15 @@ void JoystickTasks(void) {
                         break;
                     case 3:
                         joystick_input.z = value;
+                        break;
+                    case 4:
+                        joystick_input.rx = value;
+                        break;
+                    case 5:
+                        joystick_input.ry = value;
+                        break;
+                    case 6:
+                        joystick_input.rz = value;
                         break;
                 }
                 ++channelData;
