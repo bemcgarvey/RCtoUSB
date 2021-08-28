@@ -16,7 +16,7 @@ const USB_DEVICE_DESCRIPTOR device_dsc = {
     0x00, // Protocol code
     USB_EP0_BUFF_SIZE, // Max packet size for EP0, see usb_config.h
     0x4d63, // Vendor ID
-    0x0500, // Product ID
+    0x0501, // Product ID
     0x0001, // Device release number in BCD format
     0x01, // Manufacturer string index
     0x02, // Product string index
@@ -61,7 +61,7 @@ const uint8_t configDescriptor1[] = {
     USB_DESCRIPTOR_ENDPOINT, //Endpoint Descriptor
     HID_EP | _EP_IN, //EndpointAddress
     _INTERRUPT, //Attributes
-    DESC_CONFIG_WORD(14), //size
+    DESC_CONFIG_WORD(17), //size
     0x01 //Interval
 };
 
@@ -102,6 +102,19 @@ const struct {
     0x81, 0x02,                    //   INPUT (Data,Var,Abs)
     0x09, 0x35,                    //   USAGE (Rz)
     0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x09, 0x36,                    //   USAGE (Slider)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x05, 0x09,                    //   USAGE_PAGE (Button)
+    0x19, 0x01,                    //   USAGE_MINIMUM (Button 1)
+    0x29, 0x04,                    //   USAGE_MAXIMUM (Button 4)
+    0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
+    0x25, 0x01,                    //   LOGICAL_MAXIMUM (1)
+    0x75, 0x01,                    //   REPORT_SIZE (1)
+    0x95, 0x04,                    //   REPORT_COUNT (4)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x75, 0x04,                    //   REPORT_SIZE (4)
+    0x95, 0x01,                    //   REPORT_COUNT (1)
+    0x81, 0x03,                    //   INPUT (Cnst,Var,Abs)
     0xc0                           // END_COLLECTION
 };
 

@@ -18,12 +18,18 @@ typedef struct {
     uint16_t rx;
     uint16_t ry;
     uint16_t rz;
+    uint16_t slider;
+    uint8_t button1 : 1;
+    uint8_t button2 : 1;
+    uint8_t button3 : 1;
+    uint8_t button4 : 1;
+    uint8_t empty : 4;
 } INPUT_CONTROLS;
 
 #define CHANNEL_HIGH_VALUE  1536
 #define CHANNEL_LOW_VALUE   512
 
-volatile INPUT_CONTROLS joystick_input = {0, 1024, 1024, 1024, 1024, 1024};
+volatile INPUT_CONTROLS joystick_input = {0, 1024, 1024, 1024, 1024, 1024, 1024, 1024, 0, 0, 0, 0};
 volatile USB_HANDLE txHandle;
 
 void JoystickInitialize(void) {
@@ -68,6 +74,9 @@ void JoystickTasks(void) {
                         break;
                     case 6:
                         joystick_input.rz = value;
+                        break;
+                    case 7:
+                        joystick_input.slider = value;
                         break;
                 }
                 ++channelData;
