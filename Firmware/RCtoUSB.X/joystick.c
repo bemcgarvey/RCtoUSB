@@ -11,25 +11,16 @@
 uint16_t packetCount = 0;
 
 typedef struct {
-    uint16_t aileron;
-    uint16_t elevator;
     uint16_t throttle;
-    uint16_t rudder;
-    uint16_t flaps;
-    uint16_t slider;
-    uint16_t wheel;
-    uint8_t gear : 1;
-    uint8_t button1 : 1;
-    uint8_t button2 : 1;
-    uint8_t button3 : 1;
-    uint8_t button4 : 1;
-    uint8_t empty : 3;
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
 } INPUT_CONTROLS;
 
 #define CHANNEL_HIGH_VALUE  1536
 #define CHANNEL_LOW_VALUE   512
 
-volatile INPUT_CONTROLS joystick_input = {1024, 1024, 0, 1024, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile INPUT_CONTROLS joystick_input = {0, 1024, 1024, 1024};
 volatile USB_HANDLE txHandle;
 
 void JoystickInitialize(void) {
@@ -58,62 +49,13 @@ void JoystickTasks(void) {
                         joystick_input.throttle = value;
                         break;
                     case 1:
-                        joystick_input.aileron = value;
+                        joystick_input.x = value;
                         break;
                     case 2:
-                        joystick_input.elevator = value;
+                        joystick_input.y = value;
                         break;
                     case 3:
-                        joystick_input.rudder = value;
-                        break;
-                    case 4:
-                        if (value <= CHANNEL_LOW_VALUE) {
-                            joystick_input.gear = 0;
-                        }
-                        if (value >= CHANNEL_HIGH_VALUE) {
-                            joystick_input.gear = 1;
-                        }
-                        break;
-                    case 5:
-                        joystick_input.flaps = value;
-                        break;
-                    case 6:
-                        joystick_input.slider = value;
-                        break;
-                    case 7:
-                        joystick_input.wheel = value;
-                        break;
-                    case 8:
-                        if (value <= CHANNEL_LOW_VALUE) {
-                            joystick_input.button1 = 0;
-                        }
-                        if (value >= CHANNEL_HIGH_VALUE) {
-                            joystick_input.button1 = 1;
-                        }
-                        break;
-                    case 9:
-                        if (value <= CHANNEL_LOW_VALUE) {
-                            joystick_input.button2 = 0;
-                        }
-                        if (value >= CHANNEL_HIGH_VALUE) {
-                            joystick_input.button2 = 1;
-                        }
-                        break;
-                    case 10:
-                        if (value <= CHANNEL_LOW_VALUE) {
-                            joystick_input.button3 = 0;
-                        }
-                        if (value >= CHANNEL_HIGH_VALUE) {
-                            joystick_input.button3 = 1;
-                        }
-                        break;
-                    case 11:
-                        if (value <= CHANNEL_LOW_VALUE) {
-                            joystick_input.button4 = 0;
-                        }
-                        if (value >= CHANNEL_HIGH_VALUE) {
-                            joystick_input.button4 = 1;
-                        }
+                        joystick_input.z = value;
                         break;
                 }
                 ++channelData;
