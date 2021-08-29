@@ -28,6 +28,7 @@ typedef struct {
 
 #define CHANNEL_HIGH_VALUE  1536
 #define CHANNEL_LOW_VALUE   512
+#define CHANNEL_MID_VALUE   1024
 
 volatile INPUT_CONTROLS joystick_input = {0, 1024, 1024, 1024, 1024, 1024, 1024, 1024, 0, 0, 0, 0};
 volatile USB_HANDLE txHandle;
@@ -77,6 +78,34 @@ void JoystickTasks(void) {
                         break;
                     case 7:
                         joystick_input.slider = value;
+                        break;
+                    case 8:
+                        if (value > CHANNEL_MID_VALUE) {
+                            joystick_input.button1 = 1;
+                        } else {
+                            joystick_input.button1 = 0;
+                        }
+                        break;
+                    case 9:
+                        if (value > CHANNEL_MID_VALUE) {
+                            joystick_input.button2 = 1;
+                        } else {
+                            joystick_input.button2 = 0;
+                        }
+                        break;
+                    case 10:
+                        if (value > CHANNEL_MID_VALUE) {
+                            joystick_input.button3 = 1;
+                        } else {
+                            joystick_input.button3 = 0;
+                        }
+                        break;
+                    case 11:
+                        if (value > CHANNEL_MID_VALUE) {
+                            joystick_input.button4 = 1;
+                        } else {
+                            joystick_input.button4 = 0;
+                        }
                         break;
                 }
                 ++channelData;

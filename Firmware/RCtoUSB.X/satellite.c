@@ -59,7 +59,9 @@ void bindSat(int8_t pulses) {
             --rxCount;
         }
         if (PORTBbits.RB0 == 0) {
-            __delay_ms(100);
+            satPowerOff();
+            __delay_ms(500);
+            satPowerOn();
             break;
         }
     }

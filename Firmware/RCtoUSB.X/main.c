@@ -11,8 +11,7 @@
 volatile uint8_t debounceCount;
 volatile int buttonTime;
 #define DEBOUNCE_TIME   20
-#define SHORT_PRESS     960
-#define LONG_PRESS      3960   //4 seconds with the 2 * 20ms debounce times
+#define LONG_PRESS      1960   //2 seconds with the 2 * 20ms debounce times
 
 volatile enum {
     BUTTON_IDLE = 0, DEBOUNCE_DOWN = 1, BUTTON_TIMING = 2, DEBOUNCE_UP = 3, BUTTON_PRESSED = 4
@@ -34,10 +33,6 @@ void main(void) {
             buttonState = BUTTON_IDLE;
             led1Off();
             if (buttonTime > LONG_PRESS) {
-                satPowerOff();
-                __delay_ms(1000);
-                satPowerOn();
-            } else if (buttonTime > SHORT_PRESS) {
                 bindSat(DSMX_INTERNAL_11MS);
             } else {
                 bindSat(DSM2_INTERNAL_11MS);
