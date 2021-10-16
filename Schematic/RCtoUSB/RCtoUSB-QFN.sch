@@ -187,25 +187,6 @@ F 3 "~" H 9200 3200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L SamacSys_Parts:FSM16JH S?
-U 1 1 6103288B
-P 7200 5850
-AR Path="/6103288B" Ref="S?"  Part="1" 
-AR Path="/60FF3F14/6103288B" Ref="S2"  Part="1" 
-F 0 "S2" H 7800 6115 50  0000 C CNN
-F 1 "FSM16JH" H 7800 6024 50  0000 C CNN
-F 2 "SamacSys_Parts:FSM16JH" H 8250 5950 50  0001 L CNN
-F 3 "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Customer+Drawing%7F1825910%7FC10%7Fpdf%7FEnglish%7FENG_CD_1825910_C10.pdf%7F3-1825910-1" H 8250 5850 50  0001 L CNN
-F 4 "Tactile Switches 6MM TACT SWITCH" H 8250 5750 50  0001 L CNN "Description"
-F 5 "17.3" H 8250 5650 50  0001 L CNN "Height"
-F 6 "506-FSM16JH" H 8250 5550 50  0001 L CNN "Mouser Part Number"
-F 7 "https://www.mouser.co.uk/ProductDetail/TE-Connectivity-PB/FSM16JH/?qs=eA0sQYb2Mifk48vugSh4aw%3D%3D" H 8250 5450 50  0001 L CNN "Mouser Price/Stock"
-F 8 "TE Connectivity" H 8250 5350 50  0001 L CNN "Manufacturer_Name"
-F 9 "FSM16JH" H 8250 5250 50  0001 L CNN "Manufacturer_Part_Number"
-	1    7200 5850
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:R R?
 U 1 1 61032891
 P 4700 6200
@@ -289,20 +270,6 @@ Wire Wire Line
 Wire Wire Line
 	8700 1450 8800 1450
 Wire Wire Line
-	8650 5850 8400 5850
-Wire Wire Line
-	8400 5950 8500 5950
-Wire Wire Line
-	8500 5950 8500 6150
-Wire Wire Line
-	7200 5850 7200 5500
-Wire Wire Line
-	7200 5500 8650 5500
-Wire Wire Line
-	8650 5500 8650 5850
-Wire Wire Line
-	7200 5950 7200 6150
-Wire Wire Line
 	3100 4550 2100 4550
 Wire Wire Line
 	2100 4550 2100 4900
@@ -379,8 +346,6 @@ Text GLabel 3550 3950 2    50   BiDi ~ 0
 Vusb2
 Text GLabel 2900 1000 2    50   BiDi ~ 0
 Vusb2
-Wire Wire Line
-	7200 6150 7800 6150
 $Comp
 L power:GND2 #PWR019
 U 1 1 6103B76F
@@ -437,17 +402,6 @@ F 3 "" H 5450 6500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND2 #PWR026
-U 1 1 61045168
-P 7800 6150
-F 0 "#PWR026" H 7800 5900 50  0001 C CNN
-F 1 "GND2" H 7805 5977 50  0000 C CNN
-F 2 "" H 7800 6150 50  0001 C CNN
-F 3 "" H 7800 6150 50  0001 C CNN
-	1    7800 6150
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND2 #PWR018
 U 1 1 61047DC4
 P 1550 4200
@@ -480,9 +434,6 @@ F 3 "" H 8400 1350 50  0001 C CNN
 	1    8400 1350
 	1    0    0    -1  
 $EndComp
-Connection ~ 7800 6150
-Wire Wire Line
-	7800 6150 8500 6150
 $Comp
 L power:+3V3 #PWR028
 U 1 1 61051B9C
@@ -562,7 +513,6 @@ Wire Wire Line
 	7950 3500 8650 3500
 Wire Wire Line
 	8650 3500 8650 5500
-Connection ~ 8650 5500
 Wire Wire Line
 	7950 3600 8900 3600
 Wire Wire Line
@@ -646,4 +596,46 @@ Wire Wire Line
 	3550 3400 3900 3400
 Text Notes 6150 6000 0    50   ~ 0
 Do not populate R9
+$Comp
+L power:GND1 #PWR?
+U 1 1 616D9252
+P 7600 5650
+F 0 "#PWR?" H 7600 5400 50  0001 C CNN
+F 1 "GND1" H 7605 5477 50  0000 C CNN
+F 2 "" H 7600 5650 50  0001 C CNN
+F 3 "" H 7600 5650 50  0001 C CNN
+	1    7600 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_MEC_5E SW?
+U 1 1 616D9258
+P 8050 5600
+AR Path="/616D9258" Ref="SW?"  Part="1" 
+AR Path="/60FF3F14/616D9258" Ref="SW2"  Part="1" 
+F 0 "SW2" H 8050 5893 50  0000 C CNN
+F 1 "SW_MEC_5E" H 8050 5894 50  0001 C CNN
+F 2 "SamacSys_Parts:FSM16JH" H 8050 5900 50  0001 C CNN
+F 3 "http://www.apem.com/int/index.php?controller=attachment&id_attachment=1371" H 8050 5900 50  0001 C CNN
+	1    8050 5600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 5500 8450 5500
+Wire Wire Line
+	8250 5600 8450 5600
+Wire Wire Line
+	8450 5600 8450 5500
+Connection ~ 8450 5500
+Wire Wire Line
+	8450 5500 8650 5500
+Wire Wire Line
+	7850 5600 7600 5600
+Wire Wire Line
+	7600 5600 7600 5650
+Wire Wire Line
+	7850 5500 7600 5500
+Wire Wire Line
+	7600 5500 7600 5600
+Connection ~ 7600 5600
 $EndSCHEMATC
