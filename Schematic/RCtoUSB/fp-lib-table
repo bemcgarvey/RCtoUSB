@@ -1,5 +1,0 @@
-(fp_lib_table
-  (lib (name PIC18-SOIC)(type KiCad)(uri C:/Microchip-KiCad/ul_pic18f27j53iso/KiCAD/2021-07-23_04-44-00/footprints.pretty)(options "")(descr ""))
-  (lib (name PIC18-QFN)(type KiCad)(uri C:/Microchip-KiCad/ul_pic18lf27j53iml/KiCAD/2021-07-23_04-42-52/footprints.pretty)(options "")(descr ""))
-  (lib (name JST-withZH)(type KiCad)(uri C:/Temp/kicad-footprints-master/kicad-footprints-master/Connector_JST.pretty)(options "")(descr ""))
-)

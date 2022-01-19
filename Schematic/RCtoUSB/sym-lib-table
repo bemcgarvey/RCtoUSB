@@ -1,4 +1,0 @@
-(sym_lib_table
-  (lib (name PIC18F27J53-SOIC)(type Legacy)(uri C:/Microchip-KiCad/ul_pic18f27j53iso/KiCAD/2021-07-23_04-44-00/2021-07-23_04-44-00.lib)(options "")(descr ""))
-  (lib (name PIC18F27J53-QFN)(type Legacy)(uri C:/Microchip-KiCad/ul_pic18lf27j53iml/KiCAD/2021-07-23_04-42-52/2021-07-23_04-42-52.lib)(options "")(descr ""))
-)
